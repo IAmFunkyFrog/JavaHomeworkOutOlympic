@@ -151,8 +151,9 @@ public class Main {
 
                 line = br.readLine();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.err.println("Ошибка во время чтения файла (возможно, файл неправильно форматирован)");
+            e.printStackTrace();
             return;
         }
 
@@ -167,18 +168,16 @@ public class Main {
         System.out.println("Таблица 3");
         System.out.println(table3);
 
-        String paramName = "--filename=";
-        if (args.length >= 1 && args[0].startsWith(paramName)) {
-            try (BufferedWriter bw = Files.newBufferedWriter(Path.of(args[0].substring(paramName.length())))) {
-                bw.append("Таблица 1\n");
-                bw.append(table1);
-                bw.append("Таблица 2\n");
-                bw.append(table2);
-                bw.append("Таблица 3\n");
-                bw.append(table3);
-            } catch (Exception e) {
-                System.err.println("Ошибка во время чтения записи файла");
-            }
+        try (BufferedWriter bw = Files.newBufferedWriter(Path.of("result.txt"))) {
+            bw.append("Таблица 1\n");
+            bw.append(table1);
+            bw.append("Таблица 2\n");
+            bw.append(table2);
+            bw.append("Таблица 3\n");
+            bw.append(table3);
+        } catch (IOException e) {
+            System.err.println("Ошибка во время записи файла");
+            e.printStackTrace();
         }
     }
 }
